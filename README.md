@@ -2,7 +2,8 @@
 
 The repository contains an ongoing collection of tweets IDs associated with the novel coronavirus COVID-19 (SARS-CoV-2), which commenced on January 28, 2020. We used the Twitter’s search API to gather historical Tweets from the preceding 7 days, leading to the first Tweets in our dataset dating back to January 21, 2020. We leveraged Twitter’s streaming API to follow specified accounts and also collect in real-time tweets that mention specific keywords. To comply with Twitter’s [Terms of Service](https://developer.twitter.com/en/developer-terms/agreement-and-policy), we are only publicly releasing the Tweet IDs of the collected Tweets. The data is released for non-commercial research use. 
 
-The associated paper to this repository can be found here: [#COVID-19: The First Public Coronavirus Twitter Dataset](https://arxiv.org/abs/2003.07372)
+The associated paper to this repository can be found here: [Tracking Social Media Discourse About the COVID-19 Pandemic: Development of a Public Coronavirus Twitter Data Set](https://publichealth.jmir.org/2020/2/e19273/)
+
 
 ## Data Organization
 The Tweet-IDs are organized as follows:
@@ -11,11 +12,15 @@ The Tweet-IDs are organized as follows:
 * Note that Twitter returns Tweets in UTC, and thus all Tweet ID folders and file names are all in UTC as well. 
 
 ## Notes About the Data
-A few notes about this data: 
+
+### Data Collection Method Migrated to AWS (Release v2.0)
+We have recently migrated our data collection to AWS. Because of our recent shift and upgrade of computing and network specifications, we're excited to announce that we are now able to collect (and consequently release) a significantly greater number of Tweet IDs. We will be continuing to leverage AWS for the foreseeable future - please be aware that from release v2.0 and onwards, there will be a significant increase in the number of Tweet-IDs contained in each hourly file. We are increasing the major version of the releases to reflect this change in collection infrastructure. No other parameters have changed (e.g. keywords tracked, accounts followed) that have not previously been documented, and there is not a gap in data collection as we switched to AWS, as we ensured that was an overlap in hours collected during the migration. 
+
+### Other Notes
 * We will be continuously maintaining this database for the foreseeable future, and will be uploading new data on a weekly basis.  
 * There may be a few hours of missing data due to technical difficulties. We have done our best to recover as many Tweets from those time frames by using Twitter’s search API. 
 * We will keep a running summary of basic statistics as we upload data in each new release. 
-* The file keywords.txt and accounts.txt contains the updated keywords and accounts respectively that we tracked in our data collection. Each keyword and account will be followed by the date we began tracking them. 
+* The file keywords.txt and accounts.txt contains the updated keywords and accounts respectively that we tracked in our data collection. Each keyword and account will be followed by the date we began tracking them, and date we removed them (if the keyword or account has been removed) from our tracking list. 
 * Consider using tools such as the [Hydrator](https://github.com/DocNow/hydrator) and [Twarc](https://github.com/DocNow/twarc) to rehydrate the Tweet IDs. Instructions for both are in the next section. 
 * Hydrating may take a while, and Tweets may have been deleted since our initial collection. If that is the case, unfortunately you will not be able to get the deleted Tweets from querying Twitter's API. Ed Summers ([edsu](https://github.com/edsu)) hydrated the Tweets in release v1.0, taking approximately 25 hours to complete, and found that there was an approximate 6% of the Tweets that were deleted at the time of hydration, with final gzipped data size of 6.9 GB. 
 
@@ -46,24 +51,28 @@ python3 hydrate.py
 # Data Usage Agreement
 This dataset is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)). By using this dataset, you agree to abide by the stipulations in the license, remain in compliance with Twitter’s [Terms of Service](https://developer.twitter.com/en/developer-terms/agreement-and-policy), and cite the following manuscript: 
 
-Emily Chen, Kristina Lerman, and Emilio Ferrara. 2020. #COVID-19: The First Public Coronavirus Twitter Dataset.  arXiv:cs.SI/2003.07372, 2020
+Chen E, Lerman K, Ferrara E
+Tracking Social Media Discourse About the COVID-19 Pandemic: Development of a Public Coronavirus Twitter Data Set
+JMIR Public Health Surveillance 2020;6(2):e19273 
+DOI: 10.2196/19273 
+PMID: 32427106
 
-# Statistics Summary (v1.5)
-Number of Tweets : **101,771,227**
+# Statistics Summary (v2.35) 
+Number of Tweets : **1,187,561,397**
 
 Language breakdown of top 10 most prevalent languages : 
 | Language        | ISO     | No. tweets       | % total Tweets     |
 |-------------    |-----    |------------      |----------------    |
-| English         | en      | 67,427,185       | 66.25%             |
-| Spanish         | es      | 11,254,540       | 11.06%             |
-| Indonesian      | in      | 3,591,884        | 3.53%              |
-| French          | fr      | 3,124,414        | 3.07%              |
-| Portuguese      | pt      | 2,715,462        | 2.67%              |
-| Thai            | th      | 2,577,166        | 2.53%              |
-| (undefined)     | und     | 2,113,795        | 2.08%              |
-| Japanese        | ja      | 1,867,601        | 1.84%              |
-| Italian         | it      | 1,419,867        | 1.40%              |
-| Turkish         | tr      | 1,092,512        | 1.07%              |
+| English         | en      | 787,575,917      | 66.32%             |
+| Spanish         | es      | 145,668,678      | 12.27%             |
+| Portuguese      | pt      | 42,371,835       | 3.57%              |
+| French          | fr      | 34,631,825       | 2.92%              |
+| Undefined       | und     | 33,608,681       | 2.83%              |
+| Indonesian      | in      | 31,300,025       | 2.64%              |
+| German          | de      | 18,431,182       | 1.55%              |
+| Japanese        | ja      | 14,256,941       | 1.2%               |
+| Italian         | it      | 12,564,727       | 1.06%              |
+| Turkish         | tr      | 12,279,510       | 1.03%              |
 
 # Known Gaps
 | Date          | Time              |
@@ -75,8 +84,16 @@ Language breakdown of top 10 most prevalent languages :
 | 2/24/2020     | 0:00 - 4:00 UTC   |
 | 2/25/2020     | 0:00 - 3:00 UTC   |
 | 3/2/2020      | Intermittent Internet Connectivity Issues |
+| 5/14/2020     | 7:00 - 8:00 UTC   |
 
 # Inquiries
+
+Please read through the README and the closed issues to see if your question has already been addressed first. 
+
 If you have technical questions about the data collection, please contact Emily Chen at **echen920[at]usc[dot]edu**.
 
 If you have any further questions about this dataset please contact Dr. Emilio Ferrara at **emiliofe[at]usc[dot]edu**.
+
+# Related Papers
+- [What types of COVID-19 conspiracies are populated by Twitter bots?](https://firstmonday.org/ojs/index.php/fm/article/view/10633/9548)
+- [Political polarization drives online conversations about COVID‐19 in the United States](https://onlinelibrary.wiley.com/doi/full/10.1002/hbe2.202)
